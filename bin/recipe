@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+module RecipeFinder
+  class Error < StandardError; end
+
+  def self.find
+    puts "Hello worlds!"
+  end
+end
+
+RecipeFinder.find

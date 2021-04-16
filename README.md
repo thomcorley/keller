@@ -3,8 +3,10 @@ A command line interface for finding recipes
 
 ## Installation
 
-_Assuming that `usr/local/bin` is already in your PATH_
-
 1. `git clone git@github.com:thomcorley/recipe-finder.git`
 2. `cd recipe-finder`
-3. `cp recipe usr/local/bin/`
+3. Add the following to your .zshrc or .bashrc profile:
+```
+export PATH=$PATH:/<PATH>/<TO>/recipe-finder/bin
+```
+4. Type `recipe`.
