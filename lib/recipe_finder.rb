@@ -1,5 +1,5 @@
 require "httparty"
-require_relative "recipe_summary"
+require_relative "recipe_presenter"
 
 class RecipeFinder
   class Error < StandardError; end
@@ -9,8 +9,6 @@ class RecipeFinder
     response = HTTParty.get("http://api.lvh.me:2020/recipe")
     recipe_data = JSON.parse(response.body)
 
-    recipe_summary = RecipeSummary.new(recipe_data: recipe_data)
-
-    puts recipe_summary.to_json
+    RecipePresenter.new(recipe_data: recipe_data).present
   end
 end
