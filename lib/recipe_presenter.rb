@@ -1,15 +1,15 @@
 class RecipePresenter
-  attr_reader :recipe_data
+  attr_reader :recipe
 
-  def initialize(recipe_data:)
-    @recipe_data = recipe_data
+  def initialize(recipe:)
+    @recipe = recipe
   end
 
   def present
     output = <<~STR
-      #{recipe}
-      #{ingredient_entries}
-      #{method_steps}
+      #{recipe_info}
+      #{ingredients}
+      #{instructions}
     STR
 
     print output
@@ -17,31 +17,35 @@ class RecipePresenter
 
   private
 
-  def recipe
+  def recipe_info
     <<~STR
-      #{recipe_data["title"]}
+      #{recipe["title"]}
 
-      Serves: #{recipe_data["serves"]}
-      Total time: #{recipe_data["total_time"]}
+      Serves: #{recipe["serves"]}
+      Total time: #{recipe["total_time"]}
       Source: https://grubdaily.com
 
-      #{recipe_data["summary"]}
+      #{recipe["summary"]}
     STR
   end
 
-  def ingredient_entries
-    String.new.tap do |string|
-      recipe_data["ingredient_entries"].each do |ingredient_entry|
-        string << "#{ingredient_entry["original_string"]}\n"
-      end
+  def ingredients
+    String.new.tap { |string| ingredient_entries(string) }
+  end
+
+  def instructions
+    String.new.tap { |string| method_steps(string) }
+  end
+
+  def ingredient_entries(string)
+    recipe["ingredient_entries"].each do |ingredient_entry|
+      string << "#{ingredient_entry["original_string"]}\n"
     end
   end
 
-  def method_steps
-    String.new.tap do |string|
-      recipe_data["method_steps"].each_with_index do |method_step, index|
-        string << "#{index + 1}. #{method_step["description"]}\n\n"
-      end
+  def method_steps(string)
+    recipe["method_steps"].each_with_index do |method_step, index|
+      string << "#{index + 1}. #{method_step["description"]}\n\n"
     end
   end
 end

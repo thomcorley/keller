@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require_relative "../lib/recipe_finder"
 
-RecipeFinder.find
+RecipeFinder.sample
