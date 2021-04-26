@@ -10,4 +10,4 @@ A command line interface for finding recipes
 ```
 export PATH=$PATH:/<PATH>/<TO>/recipe-finder/bin
 ```
-4. Typing `recipe` will display a random recipe in the terminal.
+5. Typing `recipe` will display a random recipe in the terminal.
