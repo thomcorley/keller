@@ -24,16 +24,18 @@ module Recipe
     attr_reader :api_recipes_endpoint
 
     def download_recipe_data
-      puts "Downloading recipe data...\n\n"
+      # There's a dependency on HTTParty (could maybe create a RecipeApi class
+      # as wrapper)
       response = HTTParty.get(api_recipes_endpoint).body
 
+      # There's a dependency on File
       File.open(data_file_location, "w+") do |file|
         file.write(response)
       end
     end
 
     def parse_local_recipe_data
-      puts "Accessing recipe data locally...\n\n"
+      # There's a dependency on JSON
       JSON.parse(File.read(data_file_location))
     end
 
