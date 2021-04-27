@@ -1,5 +1,6 @@
 require "httparty"
-require_relative "recipe/presenter"
+require_relative "recipe/plain_text_presenter"
+require_relative "recipe/html_presenter"
 require_relative "recipe/importer"
 
 module Recipe
@@ -14,6 +15,6 @@ module Recipe
     all_recipes = JSON.parse(local_recipe_json)
     recipe = all_recipes.sample
 
-    Presenter.new(recipe: recipe).present
+    puts PlainTextPresenter.new(recipe: recipe).output
   end
 end
