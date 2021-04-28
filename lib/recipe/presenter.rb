@@ -6,47 +6,38 @@ module Recipe
       @recipe = recipe
     end
 
-    def present
-      output = <<~STR
+    def output
+      <<~STR
         #{recipe_info}
         #{ingredients}
         #{instructions}
       STR
-
-      print output
     end
 
     private
 
-    def recipe_info
-      <<~STR
-        Title: #{recipe["title"]}
-        Serves: #{recipe["serves"]}
-        Total time: #{recipe["total_time"]}
-        Source: https://grubdaily.com
+    def ingredient_entries_array
+      recipe["ingredient_entries"].map do |ingredient_entry|
+        ingredient_entry["original_string"]
+      end
+    end
 
-        #{recipe["summary"]}
-      STR
+    def instructions_array
+      recipe["method_steps"].map do |method_step|
+        "#{method_step["position"]}. #{method_step["description"]}"
+      end.reverse
+    end
+
+    def recipe_info
+      raise NotImplementedError, "Abstract method #{__method__} must be defined in subclass"
     end
 
     def ingredients
-      String.new.tap { |string| ingredient_entries(string) }
+      raise NotImplementedError, "Abstract method #{__method__} must be defined in subclass"
     end
 
     def instructions
-      String.new.tap { |string| method_steps(string) }
-    end
-
-    def ingredient_entries(string)
-      recipe["ingredient_entries"].each do |ingredient_entry|
-        string << "#{ingredient_entry["original_string"]}\n"
-      end
-    end
-
-    def method_steps(string)
-      recipe["method_steps"].each_with_index do |method_step, index|
-        string << "#{index + 1}. #{method_step["description"]}\n\n"
-      end
+      raise NotImplementedError, "Abstract method #{__method__} must be defined in subclass"
     end
   end
 end
