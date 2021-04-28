@@ -1,4 +1,11 @@
 #!/usr/bin/env ruby
-require_relative "../lib/recipe"
+require_relative "../lib/local_data_store"
+require_relative "../lib/api_data_source"
+require_relative "../lib/finder"
+require_relative "../lib/plain_text_presenter"
 
-Recipe.sample
+data_source = ApiDataSource.new
+data_store = LocalDataStore.new(data_source:  data_source)
+recipe_finder = Finder.new(data_store: data_store, presenter_class: PlainTextPresenter)
+
+puts recipe_finder.sample
