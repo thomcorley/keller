@@ -1,6 +1,11 @@
 # recipe-finder
 A command line interface for finding recipes
 
+## Dependencies
+
+* Ruby
+* [Bundler](https://bundler.io/)
+
 ## Installation
 
 1. `git clone git@github.com:thomcorley/recipe-finder.git`
@@ -10,4 +15,4 @@ A command line interface for finding recipes
 ```
 export PATH=$PATH:/<PATH>/<TO>/recipe-finder/bin
 ```
-5. Typing `recipe` will display a random recipe in the terminal.
+5. Typing `recipe` should display a random recipe in the terminal.
