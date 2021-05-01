@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Recipe
   class Importer
     JSON_RECIPES_ENDPOINT = "http://api.grubdaily.com/recipes"
-    JSON_DATA_FILE = "data/recipe_data.json"
 
-    def initialize(api_recipes_endpoint: JSON_RECIPES_ENDPOINT)
-      @api_recipes_endpoint = api_recipes_endpoint
+    def initialize(api_client, data_file_location)
+      @api_client = api_client
+      @data_file_location = data_file_location
     end
 
     def import
@@ -15,20 +17,18 @@ module Recipe
       end
     end
 
-    def data_file_location
-      @data_file_location ||= find_data_file
-    end
+    attr_reader :data_file_location
 
     private
 
-    attr_reader :api_recipes_endpoint
+    attr_reader :api_client
 
     def download_recipe_data
       puts "Downloading recipe data...\n\n"
-      response = HTTParty.get(api_recipes_endpoint).body
+      recipes = api_client.recipes
 
       File.open(data_file_location, "w+") do |file|
-        file.write(response)
+        file.write(JSON.dump(recipes))
       end
     end
 
@@ -38,7 +38,8 @@ module Recipe
     end
 
     def data_file_missing_or_needs_refreshed?
-      return true if !data_file_exists?
+      return true unless data_file_exists?
+
       creation_of_data_file = File.ctime(data_file_location).to_datetime
       one_hour_ago = Time.now.to_datetime - 1
 
@@ -47,13 +48,6 @@ module Recipe
 
     def data_file_exists?
       File.file?(data_file_location)
-    end
-
-    def find_data_file
-      executable_location = `which recipe`
-      project_root = executable_location.match(/(.*recipe-finder\/)/).captures.first
-
-      "#{project_root}#{JSON_DATA_FILE}"
     end
   end
 end

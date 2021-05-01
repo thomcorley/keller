@@ -1,4 +1,4 @@
-require_relative "presenter"
+require "recipe/presenter"
 
 module Recipe
   class PlainTextPresenter < Presenter
