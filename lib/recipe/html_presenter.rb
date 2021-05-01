@@ -5,31 +5,31 @@ module Recipe
 
     private
 
-    def recipe_info
+    def recipe_info(recipe)
       <<~STR
-        <h1>#{recipe["title"]}</h1>
-        <p>Serves: #{recipe["serves"]}</p>
-        <p>Total time: #{recipe["total_time"]}</p>
+        <h1>#{recipe.title}</h1>
+        <p>Serves: #{recipe.serves}</p>
+        <p>Total time: #{recipe.total_time}</p>
         <p>Source: https://grubdaily.com</p>
 
-        <p>#{recipe["summary"]}</p>
+        <p>#{recipe.summary}</p>
       STR
     end
 
-    def ingredients
+    def ingredients(recipe)
       output = ""
 
-      ingredient_entries_array.each do |ingredient_entry|
+      recipe.ingredient_entries_array.map do |ingredient_entry|
         output << "<li>#{ingredient_entry}</li>"
       end
 
       "<ul>#{output}</ul>"
     end
 
-    def instructions
+    def instructions(recipe)
       output = ""
 
-      instructions_array.each do |instruction|
+      recipe.instructions_array.each do |instruction|
         instruction_without_number = instruction.sub(/\d\.\s/, "")
 
         output << "<li>#{instruction_without_number}</li>"
