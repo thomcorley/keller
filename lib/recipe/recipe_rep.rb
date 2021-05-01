@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Recipe
-  class Recipe
+  class RecipeRep
     delegate :to_json, to: :recipe_hash
 
     def initialize(recipe_hash)

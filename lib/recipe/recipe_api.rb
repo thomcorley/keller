@@ -1,20 +1,23 @@
 # frozen_string_literal: true
 
 require "httparty"
-require "recipe/recipe"
+require "recipe/recipe_rep"
 
-class RecipeApi
-  GRUBDAILY_API_ROOT = "http://api.grubdaily.com"
+module Recipe
+  class RecipeApi
+    GRUBDAILY_API_ROOT = "http://api.grubdaily.com"
 
-  def recipes
-    req("recipes").map { |recipe| Recipe::Recipe.new(recipe) }
-  end
+    def all
+      req("recipes").map { |recipe| Recipe::RecipeRep.new(recipe) }
+    end
 
-  private
+    private
 
-  attr_reader :recipes_endpoint
+    attr_reader :recipes_endpoint
 
-  def req(endpoint)
-    JSON.parse(HTTParty.get("#{GRUBDAILY_API_ROOT}/#{endpoint}").body)
+    def req(endpoint)
+      JSON.parse(HTTParty.get("#{GRUBDAILY_API_ROOT}/#{endpoint}").body)
+    end
   end
 end
+

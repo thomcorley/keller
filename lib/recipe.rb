@@ -4,28 +4,23 @@ require "pry-byebug"
 require "active_support/all"
 require "recipe/plain_text_presenter"
 require "recipe/html_presenter"
-require "recipe/importer"
+require "recipe/get_fresh_data"
 require "recipe/recipe_api"
+require "recipe/local_recipes"
 
 module Recipe
   class Cli
     DATA_FILE = "data/recipe_data.json"
 
     def sample
-      importer.import
-      local_recipe_json = JSON.parse(File.read(importer.data_file_location)).sample
-      recipe = Recipe.new(local_recipe_json)
+      recipe = recipe_repository.all.sample
       puts presenter.output(recipe)
     end
 
     private
 
-    def api_client
-      RecipeApi.new
-    end
-
-    def importer
-      Importer.new(api_client, DATA_FILE)
+    def recipe_repository
+      GetFreshData.new(LocalRecipes.new(DATA_FILE), RecipeApi.new)
     end
 
     def presenter
