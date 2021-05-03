@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 require "httparty"
-require "recipe/recipe_rep"
+require "recipe/recipe_details"
 
 module Recipe
   class RecipeApi
     GRUBDAILY_API_ROOT = "http://api.grubdaily.com"
 
     def all
-      req("recipes").map { |recipe| Recipe::RecipeRep.new(recipe) }
+      req("recipes").map { |recipe| Recipe::RecipeDetails.new(recipe) }
     end
 
     private

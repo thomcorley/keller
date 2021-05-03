@@ -4,9 +4,9 @@ require "pry-byebug"
 require "active_support/all"
 require "recipe/plain_text_presenter"
 require "recipe/html_presenter"
-require "recipe/get_fresh_data"
 require "recipe/recipe_api"
 require "recipe/local_recipes"
+require "recipe/recipe_repository"
 
 module Recipe
   class Cli
@@ -24,6 +24,7 @@ module Recipe
     end
 
     def presenter
+      # could check CLI arguments here to switch between plain-text/html
       PlainTextPresenter.new
     end
   end

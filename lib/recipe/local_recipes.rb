@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "recipe/recipe_rep"
+require "recipe/recipe_details"
 
 module Recipe
   class LocalRecipes
@@ -9,7 +9,7 @@ module Recipe
     end
 
     def all
-      @all ||= recipes_hash.map { |recipe| Recipe::RecipeRep.new(recipe) }
+      @all ||= recipes_hash.map { |recipe| Recipe::RecipeDetails.new(recipe) }
     end
 
     def persist_all(recipes)
