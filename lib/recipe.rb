@@ -20,7 +20,7 @@ module Recipe
     private
 
     def recipe_repository
-      GetFreshData.new(LocalRecipes.new(DATA_FILE), RecipeApi.new)
+      RecipeRepository.new(LocalRecipes.new(DATA_FILE), RecipeApi.new)
     end
 
     def presenter
