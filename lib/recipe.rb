@@ -20,6 +20,9 @@ module Recipe
     private
 
     def recipe_repository
+      # RecipeRepository is composed of two other classes and uses
+      # them to implement higher order logic (getting fresh recipes) in terms of lower
+      # level methods (LocalRecipes#present?, LocalRecipes#all, LocalRecipes#created_at and RecipeApi.all).
       RecipeRepository.new(LocalRecipes.new(DATA_FILE), RecipeApi.new)
     end
 
