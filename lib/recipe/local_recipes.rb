@@ -13,6 +13,8 @@ module Recipe
     end
 
     def persist_all(recipes)
+      # Should also invalidate any cache we have e.g. @all
+      # Can also track a dirty flag
       File.open(file_path, "w+") do |file|
         file.write(JSON.dump(recipes))
       end

@@ -6,6 +6,7 @@ require "recipe/plain_text_presenter"
 require "recipe/html_presenter"
 require "recipe/recipe_api"
 require "recipe/local_recipes"
+require "recipe/refreshable_local_recipes"
 require "recipe/recipe_repository"
 
 module Recipe
@@ -23,7 +24,7 @@ module Recipe
       # RecipeRepository is composed of two other classes and uses
       # them to implement higher order logic (getting fresh recipes) in terms of lower
       # level methods (LocalRecipes#present?, LocalRecipes#all, LocalRecipes#created_at and RecipeApi.all).
-      RecipeRepository.new(LocalRecipes.new(DATA_FILE), RecipeApi.new)
+      RecipeRepository.new(RefreshableLocalRecipes.new(LocalRecipes.new(DATA_FILE)), RecipeApi.new)
     end
 
     def presenter
