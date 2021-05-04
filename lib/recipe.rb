@@ -1,20 +1,37 @@
-require "httparty"
-require_relative "recipe/plain_text_presenter"
-require_relative "recipe/html_presenter"
-require_relative "recipe/importer"
+# frozen_string_literal: true
+
+require "pry-byebug"
+require "active_support/all"
+require "recipe/plain_text_presenter"
+require "recipe/html_presenter"
+require "recipe/recipe_api"
+require "recipe/local_recipes"
+require "recipe/refreshable_local_recipes"
+require "recipe/recipe_repository"
+require "recipe/sync_to_local"
 
 module Recipe
-  DATA_FILE = "data/recipe_data.json"
+  class Cli
+    DATA_FILE = "data/recipe_data.json"
 
-  def self.sample
-    importer = Importer.new
-    importer.import
+    def sample
+      recipe = recipe_repository.all.sample
+      puts presenter.output(recipe)
+    end
 
-    local_recipe_json = File.read(importer.data_file_location)
+    private
 
-    all_recipes = JSON.parse(local_recipe_json)
-    recipe = all_recipes.sample
+    def recipe_repository
+      local_recipes = RefreshableLocalRecipes.new(LocalRecipes.new(DATA_FILE))
+      RecipeRepository.new(
+        local_recipes,
+        SyncToLocal.new(local_recipes, RecipeApi.new)
+      )
+    end
 
-    puts PlainTextPresenter.new(recipe: recipe).output
+    def presenter
+      # could check CLI arguments here to switch between plain-text/html
+      PlainTextPresenter.new
+    end
   end
 end

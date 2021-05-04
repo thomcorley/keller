@@ -1,42 +1,25 @@
+# frozen_string_literal: true
 module Recipe
   class Presenter
-    attr_reader :recipe
-
-    def initialize(recipe:)
-      @recipe = recipe
-    end
-
-    def output
+    def output(recipe)
       <<~STR
-        #{recipe_info}
-        #{ingredients}
-        #{instructions}
+        #{recipe_info(recipe)}
+        #{ingredients(recipe)}
+        #{instructions(recipe)}
       STR
     end
 
     private
 
-    def ingredient_entries_array
-      recipe["ingredient_entries"].map do |ingredient_entry|
-        ingredient_entry["original_string"]
-      end
-    end
-
-    def instructions_array
-      recipe["method_steps"].map do |method_step|
-        "#{method_step["position"]}. #{method_step["description"]}"
-      end.reverse
-    end
-
-    def recipe_info
+    def recipe_info(recipe)
       raise NotImplementedError, "Abstract method #{__method__} must be defined in subclass"
     end
 
-    def ingredients
+    def ingredients(recipe)
       raise NotImplementedError, "Abstract method #{__method__} must be defined in subclass"
     end
 
-    def instructions
+    def instructions(recipe)
       raise NotImplementedError, "Abstract method #{__method__} must be defined in subclass"
     end
   end
