@@ -1,20 +1,16 @@
 # frozen_string_literal: true
 
 module Recipe
-  class RecipeRepository
+  class SyncToLocal
+    delegate_missing_to :api_client
+
     def initialize(local_source, api_client)
       @local_source = local_source
       @api_client = api_client
     end
 
     def all
-      if local_source.stale?
-        puts "Downloading recipe data...\n\n"
-        api_client.all
-      else
-        puts "Accessing recipe data locally...\n\n"
-        local_source.all
-      end
+      api_client.all.tap { |recipes| local_source.persist_all(recipes) }
     end
 
     private

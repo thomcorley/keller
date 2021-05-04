@@ -8,6 +8,7 @@ require "recipe/recipe_api"
 require "recipe/local_recipes"
 require "recipe/refreshable_local_recipes"
 require "recipe/recipe_repository"
+require "recipe/sync_to_local"
 
 module Recipe
   class Cli
@@ -21,10 +22,11 @@ module Recipe
     private
 
     def recipe_repository
-      # RecipeRepository is composed of two other classes and uses
-      # them to implement higher order logic (getting fresh recipes) in terms of lower
-      # level methods (LocalRecipes#present?, LocalRecipes#all, LocalRecipes#created_at and RecipeApi.all).
-      RecipeRepository.new(RefreshableLocalRecipes.new(LocalRecipes.new(DATA_FILE)), RecipeApi.new)
+      local_recipes = RefreshableLocalRecipes.new(LocalRecipes.new(DATA_FILE))
+      RecipeRepository.new(
+        local_recipes,
+        SyncToLocal.new(local_recipes, RecipeApi.new)
+      )
     end
 
     def presenter
