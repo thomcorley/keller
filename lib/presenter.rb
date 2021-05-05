@@ -1,15 +1,9 @@
 class Presenter
-  attr_reader :recipe
-
-  def initialize(recipe:)
-    @recipe = recipe
-  end
-
-  def present
+  def present(recipe:)
     <<~STR
-      #{recipe_info}
-      #{ingredients}
-      #{instructions}
+      #{recipe_info(recipe)}
+      #{ingredients(recipe)}
+      #{instructions(recipe)}
     STR
   end
 

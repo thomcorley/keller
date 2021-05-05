@@ -4,7 +4,7 @@ class PlainTextPresenter < Presenter
 
   private
 
-  def recipe_info
+  def recipe_info(recipe)
     <<~STR
       Title: #{recipe.title}
       Serves: #{recipe.serves}
@@ -15,20 +15,20 @@ class PlainTextPresenter < Presenter
     STR
   end
 
-  def ingredients
+  def ingredients(recipe)
     output = ""
 
-    recipe.ingredient_entries_array.each do |ingredient_entry|
+    recipe.ingredient_entries.each do |ingredient_entry|
       output << "#{ingredient_entry}\n"
     end
 
     output
   end
 
-  def instructions
+  def instructions(recipe)
     output = ""
 
-    recipe.instructions_array.each do |instruction|
+    recipe.instructions.each do |instruction|
       output << "#{instruction}\n\n"
     end
 
