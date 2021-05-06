@@ -1,30 +1,19 @@
-require "httparty"
-require_relative "local_data_source"
-require_relative "recipe"
+require "forwardable"
 
-class ApiClientWithLocalSyncing
-  attr_reader :local_data_source
+class ApiClientWithSyncing
+  extend Forwardable
 
-  GRUBDAILY_API_ROOT = "http://api.grubdaily.com/"
+  def_delegator :@api_client, :all_recipes_hash
 
-  def initialize(local_data_source)
-    @local_data_source = local_data_source
+  attr_reader :api_client, :data_store
+
+  def initialize(data_store, api_client)
+    @data_store = data_store
+    @api_client = api_client
   end
 
   def all_recipes
-    recipes_data = JSON.parse(HTTParty.get(recipes_endpoint).body)
-    persist_to_local_source(recipes_data)
-
-    recipes_data.map{ |recipe_data| Recipe.new(recipe_data) }
-  end
-
-  private
-
-  def recipes_endpoint
-    "#{GRUBDAILY_API_ROOT}/recipes"
-  end
-
-  def persist_to_local_source(recipes_data)
-    local_data_source.persist_all(recipes_data)
+    data_store.persist_all(all_recipes_hash)
+    api_client.all_recipes
   end
 end

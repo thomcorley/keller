@@ -1,7 +1,7 @@
 class RecipeRepository
   attr_reader :local_source, :api_client
 
-  def initialize(local_source:, api_client:)
+  def initialize(local_source, api_client)
     @local_source = local_source
     @api_client = api_client
   end
