@@ -1,20 +1,39 @@
-require "httparty"
-require_relative "recipe/plain_text_presenter"
-require_relative "recipe/html_presenter"
-require_relative "recipe/importer"
+class Recipe
+  attr_reader :recipe_data
 
-module Recipe
-  DATA_FILE = "data/recipe_data.json"
+  def initialize(recipe_data)
+    @recipe_data = recipe_data
+  end
 
-  def self.sample
-    importer = Importer.new
-    importer.import
+  def title
+    recipe_data["title"]
+  end
 
-    local_recipe_json = File.read(importer.data_file_location)
+  def serves
+    recipe_data["serves"]
+  end
 
-    all_recipes = JSON.parse(local_recipe_json)
-    recipe = all_recipes.sample
+  def total_time
+    recipe_data["total_time"]
+  end
 
-    puts PlainTextPresenter.new(recipe: recipe).output
+  def summary
+    recipe_data["summary"]
+  end
+
+  def ingredient_entries
+    recipe_data["ingredient_entries"].map do |ingredient_entry|
+      ingredient_entry["original_string"]
+    end
+  end
+
+  def instructions
+    recipe_data["method_steps"].map do |method_step|
+      "#{method_step["position"]}. #{method_step["description"]}"
+    end.reverse
+  end
+
+  def to_hash
+    recipe_data
   end
 end
