@@ -18,10 +18,9 @@ class LocalDataSource
     created_at < one_day_ago
   end
 
-  # Takes a Hash of recipe data and saves it to file
-  def persist_all(recipes_data)
+  def persist_all(data_hash)
     File.open(data_file_path, "w+") do |file|
-      file.write(JSON.dump(recipes_data))
+      file.write(JSON.dump(data_hash))
     end
   end
 

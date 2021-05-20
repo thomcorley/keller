@@ -32,4 +32,8 @@ class Recipe
       "#{method_step["position"]}. #{method_step["description"]}"
     end.reverse
   end
+
+  def to_hash
+    recipe_data
+  end
 end

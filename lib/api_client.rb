@@ -3,18 +3,16 @@ require_relative "recipe"
 
 class ApiClient
   GRUBDAILY_API_ROOT = "http://api.grubdaily.com/"
-
-  def all_recipes_hash
-    @all_recipes_hash ||= JSON.parse(HTTParty.get(recipes_endpoint).body)
-  end
+  RECIPES_ENDPOINT = "#{GRUBDAILY_API_ROOT}/recipes"
 
   def all_recipes
-    all_recipes_hash.map{ |recipe_data| Recipe.new(recipe_data) }
+    recipes_hash = JSON.parse(recipes_response)
+    recipes_hash.map{ |recipe_data| Recipe.new(recipe_data) }
   end
 
   private
 
-  def recipes_endpoint
-    "#{GRUBDAILY_API_ROOT}/recipes"
+  def recipes_response
+    HTTParty.get(RECIPES_ENDPOINT).body
   end
 end
