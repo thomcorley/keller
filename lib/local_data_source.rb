@@ -1,4 +1,5 @@
 require_relative "recipe"
+require "json"
 
 class LocalDataSource
   attr_reader :data_file_path

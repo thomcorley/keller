@@ -4,7 +4,7 @@ class HtmlPresenter < Presenter
 
   private
 
-  def recipe_info
+  def recipe_info(recipe)
     <<~STR
       <h1>#{recipe.title}</h1>
       <p>Serves: #{recipe.serves}</p>
@@ -15,20 +15,20 @@ class HtmlPresenter < Presenter
     STR
   end
 
-  def ingredients
+  def ingredients(recipe)
     output = ""
 
-    recipe.ingredient_entries_array.each do |ingredient_entry|
+    recipe.ingredient_entries.each do |ingredient_entry|
       output << "<li>#{ingredient_entry}</li>"
     end
 
     "<ul>#{output}</ul>"
   end
 
-  def instructions
+  def instructions(recipe)
     output = ""
 
-    recipe.instructions_array.each do |instruction|
+    recipe.instructions.each do |instruction|
       instruction_without_number = instruction.sub(/\d\.\s/, "")
 
       output << "<li>#{instruction_without_number}</li>"

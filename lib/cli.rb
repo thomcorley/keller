@@ -30,7 +30,7 @@ class Cli
     PlainTextPresenter.new
   end
 
-  # This allows the `recipe` command to be run from outside the project root
+  # This allows the `keller` command to be run from outside the project root
   def full_data_file_path
     executable_location = `which keller`
     project_root = executable_location.match(/(.*keller\/)/).captures.first
