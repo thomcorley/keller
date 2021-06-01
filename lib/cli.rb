@@ -32,8 +32,8 @@ class Cli
 
   # This allows the `recipe` command to be run from outside the project root
   def full_data_file_path
-    executable_location = `which recipe`
-    project_root = executable_location.match(/(.*recipe-finder\/)/).captures.first
+    executable_location = `which keller`
+    project_root = executable_location.match(/(.*keller\/)/).captures.first
 
     "#{project_root}#{DATA_FILE_PATH}"
   end
