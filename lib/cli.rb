@@ -12,6 +12,17 @@ class Cli
     puts presenter.present(recipe: recipe)
   end
 
+  def lookup_recipes(ingredients:)
+    matching_recipes = recipe_repository.recipes_with(ingredients: ingredients)
+
+    if matching_recipes.none?
+      puts "Could not find any recipes containing those ingredients"
+    else
+      matching_recipes.each { |recipe| puts presenter.present(recipe: recipe) }
+      puts "Found #{matching_recipes.count} recipes"
+    end
+  end
+
   private
 
   def recipe_repository
