@@ -9,7 +9,7 @@ describe ApiClientWithSyncing do
   let(:api_client_with_syncing) { ApiClientWithSyncing.new(data_store, api_client) }
 
   before do
-    allow(data_store).to receive(:persist_all)
+    allow(data_store).to receive(:persist_all).and_return(true)
     allow(api_client).to receive(:all_recipes).and_return(stubbed_client_response)
   end
 

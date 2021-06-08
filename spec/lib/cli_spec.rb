@@ -7,6 +7,7 @@ describe Cli do
     before do
       $stdout = StringIO.new
       allow_any_instance_of(ApiClient).to receive(:all_recipes).and_return(recipe_response)
+      allow_any_instance_of(LocalDataSource).to receive(:persist_all).and_return(true)
     end
 
     context "when the data source is stale" do
@@ -29,6 +30,7 @@ describe Cli do
     context "when the data source is not stale" do
       before do
         allow_any_instance_of(LocalDataSource).to receive(:stale?).and_return(false)
+        allow_any_instance_of(LocalDataSource).to receive(:all_recipes).and_return(recipe_response)
         cli.sample
       end
 
