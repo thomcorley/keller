@@ -19,7 +19,7 @@ class RecipeRepository
 
   def recipes_with(ingredients:)
     all_recipes.select do |recipe|
-      ingredients.any? { |ingredient| recipe.contains?(ingredient) }
+      ingredients.all? { |ingredient| recipe.contains?(ingredient) }
     end
   end
 end

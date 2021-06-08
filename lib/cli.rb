@@ -3,7 +3,7 @@ require_relative "local_data_source"
 require_relative "api_client_with_syncing"
 require_relative "api_client"
 require_relative "plain_text_presenter"
-require "tty-prompt"
+require_relative "recipe_selector"
 
 class Cli
   DATA_FILE_PATH = "data/recipe_data.json"
@@ -13,21 +13,13 @@ class Cli
     puts presenter.present(recipe: recipe)
   end
 
-  def lookup_recipes(ingredients:)
+  def select_recipes(ingredients:)
     matching_recipes = recipe_repository.recipes_with(ingredients: ingredients)
 
     if matching_recipes.none?
       puts "Could not find any recipes containing those ingredients"
     else
-      prompt = TTY::Prompt.new
-      choices_for_prompt = {}
-
-      matching_recipes.each do |recipe|
-        choices_for_prompt[recipe.title] = recipe
-      end
-
-      selected_recipe = prompt.select("Found #{matching_recipes.count} recipes:\n", choices_for_prompt)
-      puts "Displaying recipe...\n\n"
+      selected_recipe = RecipeSelector.new(recipes: matching_recipes).select
       puts presenter.present(recipe: selected_recipe)
     end
   end

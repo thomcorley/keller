@@ -10,5 +10,5 @@ when ingredients.none?
 when ingredients.count > 4
   puts "Error: Keller can't look up recipes with more than 4 ingredients"
 else
-  cli.lookup_recipes(ingredients: ingredients)
+  cli.select_recipes(ingredients: ingredients)
 end
