@@ -1,5 +1,6 @@
 require "tty-prompt"
 
+# TODO: the name of this class could be improved
 class RecipeSelector
   def initialize(recipes:)
     @recipes = recipes

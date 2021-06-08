@@ -44,6 +44,6 @@ class Recipe
   end
 
   def contains?(ingredient)
-    ingredients.include?(ingredient)
+    ingredients.any? { |i| i =~ /#{ingredient}/ }
   end
 end
