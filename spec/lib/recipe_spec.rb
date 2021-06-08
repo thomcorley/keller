@@ -1,5 +1,6 @@
 require_relative "../../lib/recipe.rb"
 require_relative "../recipe_response_helper.rb"
+require "json"
 
 describe Recipe do
   include RecipeResponseHelper
@@ -38,6 +39,20 @@ describe Recipe do
       expect(recipe_hash).to be_a(Hash)
       expect(recipe_hash).to eq(recipe_data)
       expect(recipe_hash["title"]).to eq("Provençal Fish Soup")
+    end
+  end
+
+  describe "#contains?" do
+    subject { recipe.contains?(ingredient) }
+
+    context "for an ingredient the recipe includes" do
+      let(:ingredient) { "anchovies" }
+      it { is_expected.to be true }
+    end
+
+    context "for an ingredient the recipe does not include" do
+      let(:ingredient) { "bacon" }
+      it { is_expected.to be false }
     end
   end
 end

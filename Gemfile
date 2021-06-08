@@ -1,4 +1,8 @@
 source "https://rubygems.org"
 
-gem "rspec"
 gem "httparty"
+gem "tty-prompt"
+
+group :development do
+  gem "rspec"
+end

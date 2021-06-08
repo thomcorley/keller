@@ -3,6 +3,7 @@ require_relative "local_data_source"
 require_relative "api_client_with_syncing"
 require_relative "api_client"
 require_relative "plain_text_presenter"
+require_relative "recipe_selector"
 
 class Cli
   DATA_FILE_PATH = "data/recipe_data.json"
@@ -10,6 +11,17 @@ class Cli
   def sample
     recipe = recipe_repository.all_recipes.sample
     puts presenter.present(recipe: recipe)
+  end
+
+  def select_recipes(ingredients:)
+    matching_recipes = recipe_repository.recipes_with(ingredients: ingredients)
+
+    if matching_recipes.none?
+      puts "Could not find any recipes containing those ingredients"
+    else
+      selected_recipe = RecipeSelector.new(recipes: matching_recipes).select
+      puts presenter.present(recipe: selected_recipe)
+    end
   end
 
   private

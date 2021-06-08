@@ -27,6 +27,12 @@ class Recipe
     end
   end
 
+  def ingredients
+    recipe_data["ingredient_entries"].map do |ingredient_entry|
+      ingredient_entry["ingredient"]
+    end
+  end
+
   def instructions
     recipe_data["method_steps"].map do |method_step|
       "#{method_step["position"]}. #{method_step["description"]}"
@@ -35,5 +41,9 @@ class Recipe
 
   def to_hash
     recipe_data
+  end
+
+  def contains?(ingredient)
+    ingredients.any? { |i| i =~ /#{ingredient}/ }
   end
 end

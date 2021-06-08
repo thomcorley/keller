@@ -6,6 +6,7 @@ class RecipeRepository
     @api_client = api_client
   end
 
+  # Returns: an array of Recipe objects
   def all_recipes
     if local_source.stale?
       puts "Downloading recipe data...\n\n"
@@ -13,6 +14,12 @@ class RecipeRepository
     else
       puts "Accessing recipe data locally...\n\n"
       local_source.all_recipes
+    end
+  end
+
+  def recipes_with(ingredients:)
+    all_recipes.select do |recipe|
+      ingredients.all? { |ingredient| recipe.contains?(ingredient) }
     end
   end
 end

@@ -1,4 +1,14 @@
 #!/usr/bin/env ruby
 require_relative "../lib/cli"
 
-Cli.new.sample
+ingredients = ARGV
+cli = Cli.new
+
+case
+when ingredients.none?
+  cli.sample
+when ingredients.count > 4
+  puts "Error: Keller can't look up recipes with more than 4 ingredients"
+else
+  cli.select_recipes(ingredients: ingredients)
+end
